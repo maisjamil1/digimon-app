@@ -8,23 +8,7 @@
     <!-- <link rel="stylesheet" href="/styles/style.css"> -->
 </head>
 <body>
-    <style>
-        div{
-    
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-    grid-gap:50px;
-}
-section{
-    margin: 0 auto;
-    padding:10px;
-    border:5px solid black;
-    text-align: center;
-    
-    
-}
-
-    </style>
+  
     <h1>home page</h1>
     <nav>
         <a href="/"><li>home</li></a>
@@ -33,7 +17,17 @@ section{
         
     </nav>
 
+    <form action="/sort" method="POST">
+        <select name="sortBy" id="sorttype" >
+            <option value="level">sort by level</option>
+            <option value="name">sort by name</option>
+        </select>
+        <button>start sorting</button>
+     </form>
+
+
     <div>
+
     <%data.forEach(val=>{%>
         <section>
         <h2><%=val.name%></h2>
