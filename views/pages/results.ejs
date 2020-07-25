@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/style/style.css">
+</head>
+<body>
+    <style>
+        div{
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    grid-gap:50px;
+}
+section{
+    margin: 0 auto;
+    padding:10px;
+    border:5px solid black;
+    text-align: center;
+    
+    
+}
+
+    </style>
+    <h1>home page</h1>
+    <nav>
+        <a href="/"><li>home</li></a>
+        <a href="/renderFAV"><li>favirouts</li></a>
+        <a href="/renderSearch"><li>search page</li></a>
+        
+    </nav>
+
+    <div>
+    <%data.forEach(val=>{%>
+        <section>
+        <h2><%=val.name%></h2>
+        <img src="<%=val.img%>" alt="">
+        <p><%=val.level%></p>
+
+        <form action="/add" method="POST">
+            <input type="text" name="name" value="<%=val.name%>" style="display: none;">
+            <input type="text" name="img" value="<%=val.img%>"style="display: none;">
+            <input type="text" name="level" value="<%=val.level%>"style="display: none;">
+       <button>add to fav</button>
+    </form>
+    </section>
+    <%})%>
+</div>
+</body>
+</html>
