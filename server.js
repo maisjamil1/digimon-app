@@ -22,7 +22,7 @@ app.use(express.json())
 
 app.set('view engin','ejs')
 
-
+let digiArr;
 
 app.get('/',homepage)
 app.post('/add',addTo)
@@ -32,9 +32,67 @@ app.put('/update/:id',updateDigi)
 app.delete('/delete/:id',deleteDigi)
 app.get('/renderSearch',renderSearch)
 app.post('/Search',startSearch)
-app.get('/results',resultsSearch)
+app.post('/results',resultsSearch)
+
+app.post('/sort',sortHandler)
+
+function sortHandler(req,res){
+    let $sortBy=req.body.sortBy
+    
+    
+
+    let levels=[
+        'Fresh',
+        'In Training',
+        'Training',
+        'Rookie',
+        'Armor',
+        'Champion',
+        'Mega',
+        'Ultimate'
+     ]
+
+    // digiArr.forEach(val=>{
+    //     if(!levels.includes(val.level)){
+    //         levels.push(val.level)
+    //     }else{console.log('000')}
+    // })
+    // console.log(levels);
 
 
+
+    digiArr.sort((a, b) => {
+        if($sortBy=='name'){
+            let firstEle=a[$sortBy]
+            let secEle=b[$sortBy]
+            if(firstEle>secEle){
+                return 1
+            }
+            else if(firstEle<secEle){
+                return -1
+            }else{
+                return 0
+            }
+        }else{
+          
+          let A=a.level
+          let B=b.level
+          let val1=levels.indexOf(A)
+          let val2=levels.indexOf(B)
+          if(val1>val2){
+            return -1
+        }
+        else if(val1<val2){
+            return 1
+        }else{
+            return 0
+        }
+        }
+    })
+    res.render('index.ejs',{data:digiArr})
+
+
+}
 
 
 
@@ -46,11 +104,12 @@ app.get('/results',resultsSearch)
 
 
 //___________________________________________________________
+
 function homepage(req,res){
-    // res.render('index.ejs')
+    
     superagent('https://digimon-api.vercel.app/api/digimon').then(data=>{
-        // res.json(data.body)
-        let digiArr=data.body.map(obj=>{
+       
+        digiArr=data.body.map(obj=>{
             return new DigiMaker(obj)
         })
         
@@ -154,34 +213,6 @@ function resultsSearch(req,res){
     
 }
 //___________________________________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
